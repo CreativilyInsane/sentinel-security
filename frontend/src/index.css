@@ -1,0 +1,208 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Color themes
+  ------------
+  Each theme defines RGB triples (space separated, no commas — required for
+  Tailwind's `rgb(var(--x) / <alpha-value>)` opacity syntax) for the primary
+  and accent color ramps. Switching the `data-theme` attribute on <html> is
+  all that's needed to re-theme every component, since Button/Badge/Input/
+  Sidebar/etc. all consume `primary-*` / `accent-*` Tailwind utilities that
+  now resolve through these variables.
+*/
+:root,
+[data-theme="nebula"] {
+  --color-primary-50: 236 254 255;
+  --color-primary-100: 207 250 254;
+  --color-primary-200: 165 243 252;
+  --color-primary-300: 103 232 249;
+  --color-primary-400: 34 211 238;
+  --color-primary-500: 6 182 212;
+  --color-primary-600: 8 145 178;
+  --color-primary-700: 14 116 144;
+  --color-primary-800: 21 94 117;
+  --color-primary-900: 22 78 99;
+  --color-primary-950: 8 51 68;
+  --color-accent-50: 250 245 255;
+  --color-accent-100: 243 232 255;
+  --color-accent-200: 233 213 255;
+  --color-accent-300: 216 180 254;
+  --color-accent-400: 192 132 252;
+  --color-accent-500: 168 85 247;
+  --color-accent-600: 147 51 234;
+  --color-accent-700: 126 34 206;
+  --color-accent-800: 107 33 168;
+  --color-accent-900: 88 28 135;
+  --color-accent-950: 59 7 100;
+}
+
+[data-theme="synthwave"] {
+  --color-primary-50: 253 244 255;
+  --color-primary-100: 250 232 255;
+  --color-primary-200: 245 208 254;
+  --color-primary-300: 240 171 252;
+  --color-primary-400: 232 121 249;
+  --color-primary-500: 217 70 239;
+  --color-primary-600: 192 38 211;
+  --color-primary-700: 162 28 175;
+  --color-primary-800: 134 25 143;
+  --color-primary-900: 112 26 117;
+  --color-primary-950: 74 4 78;
+  --color-accent-50: 238 242 255;
+  --color-accent-100: 224 231 255;
+  --color-accent-200: 199 210 254;
+  --color-accent-300: 165 180 252;
+  --color-accent-400: 129 140 248;
+  --color-accent-500: 99 102 241;
+  --color-accent-600: 79 70 229;
+  --color-accent-700: 67 56 202;
+  --color-accent-800: 55 48 163;
+  --color-accent-900: 49 46 129;
+  --color-accent-950: 30 27 75;
+}
+
+[data-theme="matrix"] {
+  --color-primary-50: 240 253 244;
+  --color-primary-100: 220 252 231;
+  --color-primary-200: 187 247 208;
+  --color-primary-300: 134 239 172;
+  --color-primary-400: 74 222 128;
+  --color-primary-500: 34 197 94;
+  --color-primary-600: 22 163 74;
+  --color-primary-700: 21 128 61;
+  --color-primary-800: 22 101 52;
+  --color-primary-900: 20 83 45;
+  --color-primary-950: 5 46 22;
+  --color-accent-50: 236 254 255;
+  --color-accent-100: 207 250 254;
+  --color-accent-200: 165 243 252;
+  --color-accent-300: 103 232 249;
+  --color-accent-400: 34 211 238;
+  --color-accent-500: 6 182 212;
+  --color-accent-600: 8 145 178;
+  --color-accent-700: 14 116 144;
+  --color-accent-800: 21 94 117;
+  --color-accent-900: 22 78 99;
+  --color-accent-950: 8 51 68;
+}
+
+[data-theme="solar"] {
+  --color-primary-50: 255 251 235;
+  --color-primary-100: 254 243 199;
+  --color-primary-200: 253 230 138;
+  --color-primary-300: 252 211 77;
+  --color-primary-400: 251 191 36;
+  --color-primary-500: 245 158 11;
+  --color-primary-600: 217 119 6;
+  --color-primary-700: 180 83 9;
+  --color-primary-800: 146 64 14;
+  --color-primary-900: 120 53 15;
+  --color-primary-950: 69 26 3;
+  --color-accent-50: 255 241 242;
+  --color-accent-100: 255 228 230;
+  --color-accent-200: 254 205 211;
+  --color-accent-300: 253 164 175;
+  --color-accent-400: 251 113 133;
+  --color-accent-500: 244 63 94;
+  --color-accent-600: 225 29 72;
+  --color-accent-700: 190 18 60;
+  --color-accent-800: 159 18 57;
+  --color-accent-900: 136 19 55;
+  --color-accent-950: 76 5 25;
+}
+
+[data-theme="quantum"] {
+  --color-primary-50: 239 246 255;
+  --color-primary-100: 219 234 254;
+  --color-primary-200: 191 219 254;
+  --color-primary-300: 147 197 253;
+  --color-primary-400: 96 165 250;
+  --color-primary-500: 59 130 246;
+  --color-primary-600: 37 99 235;
+  --color-primary-700: 29 78 216;
+  --color-primary-800: 30 64 175;
+  --color-primary-900: 30 58 138;
+  --color-primary-950: 23 37 84;
+  --color-accent-50: 236 254 255;
+  --color-accent-100: 207 250 254;
+  --color-accent-200: 165 243 252;
+  --color-accent-300: 103 232 249;
+  --color-accent-400: 34 211 238;
+  --color-accent-500: 6 182 212;
+  --color-accent-600: 8 145 178;
+  --color-accent-700: 14 116 144;
+  --color-accent-800: 21 94 117;
+  --color-accent-900: 22 78 99;
+  --color-accent-950: 8 51 68;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-dark-950 text-dark-100 antialiased font-sans;
+    background-image:
+      radial-gradient(circle at 15% 0%, rgb(var(--color-primary-400) / 0.08), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgb(var(--color-accent-400) / 0.06), transparent 45%),
+      linear-gradient(rgb(var(--color-primary-400) / 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--color-primary-400) / 0.045) 1px, transparent 1px);
+    background-size: auto, auto, 32px 32px, 32px 32px;
+    background-attachment: fixed;
+    transition: background-color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer components {
+  /* Custom scrollbar — glowing themed thumb */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-900;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-700 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-600;
+    box-shadow: 0 0 8px rgb(var(--color-primary-500) / 0.6);
+  }
+
+  /* Glassmorphic surface used across cards, panels, sidebar, navbar */
+  .glass-panel {
+    @apply bg-dark-900/60 backdrop-blur-xl border border-dark-700/60;
+  }
+
+  /* Theme-colored gradient text, for headline accents */
+  .text-gradient-cyber {
+    @apply bg-gradient-cyber bg-clip-text text-transparent;
+  }
+
+  /* Thin animated top border used on key panels */
+  .border-glow-top {
+    position: relative;
+  }
+  .border-glow-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(var(--color-primary-400) / 0.8), transparent);
+  }
+
+  /* Monospace numerals for stats / data-dense values */
+  .font-data {
+    @apply font-mono tracking-tight;
+  }
+}
