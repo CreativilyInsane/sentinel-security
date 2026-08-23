@@ -18,6 +18,13 @@ from app.core.config import settings
 from app.db.base import Base
 # IMPORTANT: Import all models here so Alembic can detect them for autogeneration
 from app.models import User, Role, AuditLog
+from app.models.client import Client, ClientAsset
+from app.models.target_assignment import TargetAssignment, AssignmentNotification
+from app.models.user_active_target import UserActiveTarget
+from app.models.user_module_permission import UserModulePermission
+from app.recon.models.scan import Scan
+from app.recon.models.scan_result import ScanResult
+from app.recon.models.asset import Asset
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)

@@ -4,6 +4,7 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import { useUsers, useDeleteUser } from '@/hooks/useUsers';
 import { UserTable } from '@/components/users/UserTable';
 import { UserFormModal } from '@/components/users/UserFormModal';
+import { NetworkPermissionsModal } from '@/components/users/NetworkPermissionsModal';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
@@ -12,10 +13,11 @@ import type { User } from '@/types/user.types';
 export const Users: React.FC = () => {
   const { data: users, isLoading } = useUsers();
   const deleteUser = useDeleteUser();
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
+  const [networksUser, setNetworksUser] = useState<User | null>(null);
 
   const handleOpenCreate = () => {
     setEditingUser(null);
@@ -30,6 +32,8 @@ export const Users: React.FC = () => {
   const handleDelete = (id: number) => {
     setDeleteTargetId(id);
   };
+
+  const handleManageNetworks = (user: User) => setNetworksUser(user);
 
   const confirmDelete = async () => {
     if (deleteTargetId !== null) {
@@ -61,12 +65,27 @@ export const Users: React.FC = () => {
         </Button>
       </div>
 
-      <UserTable users={users || []} onEdit={handleOpenEdit} onDelete={handleDelete} />
+      {/* NOTE: Module permissions now live on a dedicated page.
+          Click the module-permissions icon next to a user to open
+          /admin/users/:userId/modules. */}
 
-      <UserFormModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        user={editingUser} 
+      <UserTable
+        users={users || []}
+        onEdit={handleOpenEdit}
+        onDelete={handleDelete}
+        onManageNetworks={handleManageNetworks}
+      />
+
+      <UserFormModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        user={editingUser}
+      />
+
+      <NetworkPermissionsModal
+        user={networksUser}
+        isOpen={networksUser !== null}
+        onClose={() => setNetworksUser(null)}
       />
 
       <ConfirmDialog

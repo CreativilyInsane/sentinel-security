@@ -7,9 +7,10 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
+  className?: string;
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, className = '' }) => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -37,7 +38,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
       />
       
       {/* Modal Container */}
-      <div className="relative glass-panel border-glow-top rounded-2xl shadow-2xl shadow-black/50 w-full max-w-md max-h-[90vh] flex flex-col animate-fade-in-up">
+      <div className={`relative glass-panel border-glow-top rounded-2xl shadow-2xl shadow-black/50 w-full max-w-md max-h-[90vh] flex flex-col animate-fade-in-up ${className}`}>
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-dark-800">
           <h3 className="text-lg font-display font-semibold text-dark-50">{title}</h3>

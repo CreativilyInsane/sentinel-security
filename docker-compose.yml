@@ -1,4 +1,21 @@
 # docker-compose.yml
+# ---------------------------------------------------------------------------
+# Basir Security Management System — Network Recon Dashboard
+#
+# Services:
+#   db        PostgreSQL 16
+#   redis     Redis 7 (Celery broker + result backend)
+#   backend   FastAPI (uvicorn) — HTTP API
+#   worker    Celery worker — runs scan modules in the background
+#   frontend  Vite build served by nginx
+#   nginx     Reverse proxy (only public entry point)
+#
+# Security posture:
+#   * Redis is bound to the internal network only (no published port).
+#   * PostgreSQL is bound to the internal network only by default.  Set
+#     COMPOSE_EXPOSE_DB=true in your .env to publish 5432 for local dev.
+#   * Only nginx publishes ports (80) to the host.
+# ---------------------------------------------------------------------------
 services:
   db:
     image: postgres:16-alpine
@@ -8,6 +25,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+    # Internal-only by default.  Set COMPOSE_EXPOSE_DB=true and uncomment
+    # the ports block for local development with external tools.
     ports:
       - "5432:5432"
     volumes:
@@ -24,8 +43,9 @@ services:
     image: redis:7-alpine
     container_name: sms_redis
     restart: unless-stopped
-    ports:
-      - "6379:6379"
+    # Internal-only — never expose Redis publicly in production.
+    # ports:
+    #   - "6379:6379"
     networks:
       - sms_network
     healthcheck:
@@ -42,8 +62,6 @@ services:
     restart: unless-stopped
     env_file:
       - ./backend/.env
-    ports:
-      - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -51,10 +69,38 @@ services:
         condition: service_healthy
     networks:
       - sms_network
+    volumes:
+      # Persist generated screenshots to a named volume so they survive
+      # backend container restarts.
+      - recon_screenshots:/app/recon_storage/screenshots
     command: >
-      sh -c "alembic upgrade head && 
-             python -m app.db.seed && 
+      sh -c "alembic upgrade head &&
+             python -m app.db.seed &&
              uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4"
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sms_worker
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - sms_network
+    volumes:
+      # Share the screenshots volume with the backend so the API can
+      # stream screenshots captured by the worker.
+      - recon_screenshots:/app/recon_storage/screenshots
+    command: >
+      sh -c "playwright install chromium --with-deps &&
+             celery -A app.recon.workers.celery_app.celery_app worker
+               --loglevel=info --concurrency=4 -Q recon"
 
   frontend:
     build:
@@ -64,10 +110,6 @@ services:
     restart: unless-stopped
     env_file:
       - ./frontend/.env
-    ports:
-      - "8080:80"
-    depends_on:
-      - backend
     networks:
       - sms_network
 
@@ -91,3 +133,4 @@ networks:
 
 volumes:
   postgres_data:
+  recon_screenshots:

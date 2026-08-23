@@ -10,6 +10,7 @@ export interface ThemeOption {
 }
 
 export const THEMES: ThemeOption[] = [
+  { id: 'monochrome', name: 'Monochrome', description: 'Black & white', swatch: ['#000000', '#ffffff'] },
   { id: 'nebula', name: 'Nebula', description: 'Cyan & violet', swatch: ['#06b6d4', '#a855f7'] },
   { id: 'synthwave', name: 'Synthwave', description: 'Magenta & indigo', swatch: ['#d946ef', '#6366f1'] },
   { id: 'matrix', name: 'Matrix', description: 'Neon green & cyan', swatch: ['#22c55e', '#06b6d4'] },
@@ -17,7 +18,7 @@ export const THEMES: ThemeOption[] = [
   { id: 'quantum', name: 'Quantum', description: 'Blue & cyan', swatch: ['#3b82f6', '#06b6d4'] },
 ];
 
-const DEFAULT_THEME = 'nebula';
+const DEFAULT_THEME = 'monochrome';
 const STORAGE_KEY = 'sms-color-theme';
 
 interface ThemeContextType {

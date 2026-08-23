@@ -20,7 +20,8 @@ export const Navbar: React.FC = () => {
         
         <div className="flex items-center space-x-4">
           <button 
-            onClick={() => navigate('/profile')}
+            // onClick={() => navigate('/profile')}
+            onClick={() => navigate('/settings')}
             className="flex items-center space-x-2.5 group"
           >
             <div className="hidden sm:block text-right">
